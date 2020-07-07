@@ -1,0 +1,32 @@
+API Call:
+	> Link: http://www.omdbapi.com/?apikey={api-key}&i={movie-imdbId}
+	> API key: e370807e
+
+WebView (For "playing" youtube video)
+	> https://forums.xamarin.com/discussion/33844/embed-youtube-video
+
+Video Hosting Site
+	> https://www.veoh.com/
+
+Embed Videos in html
+	> https://www.w3schools.com/tags/tag_video.asp
+
+Flow List View
+	> https://github.com/daniel-luberda/DLToolkit.Forms.Controls/tree/master/FlowListView
+
+Get Movie List With API call (I have to make a Json With Movie List, Each movie will have: Title, ImbdId, veoh.com video address, Imbd_Poster image address)
+	> https://www.mocky.io/
+
+Generate Icons and SplashScreen
+	> https://apetools.webprofusion.com/#/tools/imagegorilla
+
+
+
+Embed youtube videos
+	> https://www.google.com/search?q=embed+youtube+video&rlz=1C1CHBF_enPR807PR807&oq=embed+youtube+&aqs=chrome.1.69i57j0l2j69i60l3.5588j0j7&sourceid=chrome&ie=UTF-8
+
+Embed Google Videos
+	> https://support.google.com/blogger/thread/1950766?hl=en
+
+
+	

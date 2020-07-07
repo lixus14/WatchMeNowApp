@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WatchMeNow.Views.HomeScreenTabbedPage"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:views="clr-namespace:WatchMeNow.View"
+             android:TabbedPage.ToolbarPlacement="Bottom"
+             android:TabbedPage.BarItemColor="Gray"
+             android:TabbedPage.BarSelectedItemColor="Orange">
+
+
+    <TabbedPage.Children>
+
+        <!--<NavigationPage Title="Movies" BarTextColor="Orange" BarBackgroundColor="Black" Icon="MoviesIcon.png">
+
+            <x:Arguments>
+                <views:MoviesPage/>
+            </x:Arguments>
+
+        </NavigationPage>-->
+
+        <NavigationPage Title="Music" BarTextColor="Orange" BarBackgroundColor="Black" Icon="MusicIcon.png">
+
+            <x:Arguments>
+                <views:ArtistsPage/>
+            </x:Arguments>
+
+        </NavigationPage>
+
+        <!--<NavigationPage Title="Profile" BarTextColor="Orange" BarBackgroundColor="Black" Icon="User.png">
+
+            <x:Arguments>
+                <views:ProfilePage/>
+            </x:Arguments>
+
+        </NavigationPage>-->
+
+    </TabbedPage.Children>
+    
+    
+</TabbedPage>

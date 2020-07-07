@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             mc:Ignorable="d"
+             x:Class="WatchMeNow.View.CurrentTrackPage"
+             xmlns:vm="clr-namespace:WatchMeNow.ViewModel"
+             xmlns:animation="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
+             Title="{Binding Track.Name}"
+             BackgroundColor="DarkGray">
+
+    <ContentPage.BindingContext>
+        <vm:CurrentTrackViewModel x:Name="CurrentTrackViewModel"/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="btnClose" IconImageSource="X.png" Clicked="BtnClose_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="0" Grid.Row="0" BackgroundColor="DarkGray" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="300"/>
+                </Grid.RowDefinitions>
+
+                <Frame x:Name="imgFrame" Grid.Row="0" Grid.Column="0" BackgroundColor="DarkGray" CornerRadius="200" 
+                           IsClippedToBounds="True" Padding="0" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image x:Name="trackImage" Aspect="Fill" HeightRequest="300" WidthRequest="300" MinimumHeightRequest="300">
+                        <Image.Source>
+                            <UriImageSource Uri="{Binding CoverArtUrl}" 
+			                                        CacheValidity="10" 
+			                                        CachingEnabled="true"/>
+                        </Image.Source>
+                    </Image>
+                </Frame>
+
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.Row="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <ImageButton x:Name="btnLiked" Aspect="AspectFit" 
+                         Clicked="ImageButton_Clicked"
+                         HeightRequest="50" WidthRequest="50" 
+                         MinimumHeightRequest="50" MinimumWidthRequest="50"
+                         Grid.Row="0" Grid.Column="0"
+                         Source="{Binding TrackIsLikedSource}" 
+                         Margin="0,5,0,5" BackgroundColor="DarkGray"/>
+                <ImageButton x:Name="btnLyrics" Aspect="AspectFit"
+                             Clicked="btnLyrics_Clicked"
+                             HeightRequest="50" WidthRequest="50"
+                             Grid.Row="0" Grid.Column="1"
+                             Source="lyrics.png"
+                             Margin="0,5,0,5" BackgroundColor="DarkGray"/>
+            </Grid>
+            
+
+            <Grid Grid.Row="2" Grid.Column="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <animation:AnimationView x:Name="MusicPlayingAnimation" Grid.Row="0" Grid.Column="0"
+                                     Animation="musicPlaying.json"
+                                     Loop="True"
+                                     AutoPlay="{Binding AnimationIsPlaying}"
+                                     IsVisible="True"
+                                     IsEnabled="{Binding AnimationIsPlaying}"/>
+
+            </Grid>
+            
+            
+
+            <yummy:PancakeView Grid.Column="0" Grid.Row="3" CornerRadius="50,50,0,0" BackgroundColor="Black">
+                <Grid HorizontalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" VerticalOptions="EndAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="currentPosition" Grid.Row="0" Grid.Column="0" Text="0:00" TextColor="Orange" Margin="20,0,0,0"/>
+                        <ProgressBar x:Name="bufferProgress" Progress="0" Grid.Row="0" Grid.Column="1" ProgressColor="LightCoral"/>
+                        <ProgressBar x:Name="currentSongProgress" Progress="0" Grid.Row="0" Grid.Column="1" ProgressColor="DarkOrange" BackgroundColor="Transparent"/>
+                        <Label x:Name="currentSongLenght" Grid.Row="0" Grid.Column="2" Text="0:00" TextColor="Orange" Margin="0,0,20,0"/>
+
+                    </Grid>
+
+
+                    <ImageButton x:Name="btnSkipBack" Aspect="AspectFit" Grid.Column="0" Grid.Row="2" Clicked="BtnSkipBack_Clicked"
+                                 HeightRequest="50" WidthRequest="50" Source="SkipBack.png" BackgroundColor="Black"/>
+                    <ImageButton x:Name="btnSkipBackTenSeconds" Aspect="AspectFit" Grid.Column="1" Grid.Row="2" Clicked="BtnSkipBackTenSeconds_Clicked"
+                                 HeightRequest="50" WidthRequest="50" Source="Back_10_Sec.png" BackgroundColor="Black"/>
+                    <ImageButton x:Name="btnPlayPause" Aspect="AspectFit" Grid.Column="2" Grid.Row="2" Clicked="BtnPlayPause_Clicked"
+                                 HeightRequest="80" WidthRequest="80" Source="{Binding PlayPauseSource}" BackgroundColor="Black"/>
+                    <ImageButton x:Name="btnSkipForwardTenSeconds" Aspect="AspectFit" Grid.Column="3" Grid.Row="2" Clicked="BtnSkipForwardTenSeconds_Clicked"
+                                 HeightRequest="50" WidthRequest="50" Source="Forward_10_Sec.png" BackgroundColor="Black"/>
+                    <ImageButton x:Name="btnSkipForward" Aspect="AspectFit" Grid.Column="4" Grid.Row="2" Clicked="BtnSkipForward_Clicked"
+                                 HeightRequest="50" WidthRequest="50" Source="SkipForward.png" BackgroundColor="Black"/>
+
+                </Grid>
+            </yummy:PancakeView>
+
+            <animation:AnimationView Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" x:Name="LoadingAnimation"
+                                     Animation="loading.json"
+                                     Loop="True"
+                                     AutoPlay="True"
+                                     VerticalOptions="CenterAndExpand"
+                                     HorizontalOptions="CenterAndExpand"
+                                     IsVisible="False"
+                                     IsEnabled="False"
+                                     />
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

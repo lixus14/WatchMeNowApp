@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WatchMeNow.Views.LoginPage"
+             BackgroundColor="White">
+    
+    <ContentPage.Content>
+
+        <ScrollView>
+            
+            <Grid Margin="5,10,5,10">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="300"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image x:Name="imgBackground" Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Source="LoginBackground.png" Aspect="AspectFill"/>
+
+                <Label Text="Enter UserName: "  Grid.Row="1" Grid.Column="0"/>
+                <Entry x:Name="txtUserName" Grid.Row="2" Grid.Column="0"/>
+
+                <Button x:Name="btnLogin" Text="Login" Grid.Row="3" Grid.Column="0" Clicked="BtnLogin_Clicked"/>
+
+
+            </Grid>
+            
+        </ScrollView>
+
+    </ContentPage.Content>
+    
+</ContentPage>

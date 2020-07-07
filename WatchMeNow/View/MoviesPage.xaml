@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             mc:Ignorable="d"
+             x:Class="WatchMeNow.View.MoviesPage"
+             xmlns:vm="clr-namespace:WatchMeNow.ViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="LightGray">
+
+    <ContentPage.BindingContext>
+        <vm:MoviesViewModel x:Name="MoviesViewModel"/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="btnOrder" IconImageSource="AtoZ.png" Clicked="BtnOrder_Clicked" Priority="0" Order="Primary"/>
+        <ToolbarItem x:Name="btnMovieSearch" IconImageSource="MagnifyingGlass.png" Clicked="BtnMovieSearch_Clicked" Priority="1" Order="Primary"/>
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <StackLayout>
+
+            <SearchBar x:Name="sbMovies" IsVisible="false" Placeholder="Search" PlaceholderColor="WhiteSmoke"
+                       TextChanged="SbMovies_TextChanged" Unfocused="SbMovies_Unfocused" BackgroundColor="Black"
+                       TextColor="Orange" CancelButtonColor="DarkOrange"/>
+
+            <StackLayout>
+
+                <flv:FlowListView x:Name="flowList" FlowColumnCount="2" SeparatorVisibility="Default" HasUnevenRows="False" FlowItemsSource="{Binding MovieList}"
+                                  FlowColumnMinWidth="110" RowHeight="300" FlowItemTappedCommand="{Binding ItemTappedCommand}"
+                                  IsPullToRefreshEnabled="True" BackgroundColor="DarkGray">
+
+                    <flv:FlowListView.FlowColumnTemplate>
+                        <DataTemplate>
+                            <Grid Padding="3">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Frame Grid.Row="0" Grid.Column="0" CornerRadius="20" IsClippedToBounds="True" Padding="0">
+                                    <Grid Padding="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Image Aspect="Fill" MinimumHeightRequest="200">
+                                            <Image.Source>
+                                                <UriImageSource Uri="{Binding Poster}" 
+			                                        CacheValidity="10" 
+			                                        CachingEnabled="true"/>
+                                            </Image.Source>
+                                        </Image>
+                                        <Label x:Name="Label" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalOptions="End" BackgroundColor="Black" Text="{Binding Title}" TextColor="Orange"/>
+                                    
+                                    </Grid>
+                                </Frame>
+
+                            </Grid>
+                        </DataTemplate>
+                    </flv:FlowListView.FlowColumnTemplate>
+                
+                </flv:FlowListView>
+            
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

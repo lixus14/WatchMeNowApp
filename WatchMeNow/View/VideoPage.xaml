@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:o="clr-namespace:Octane.Xamarin.Forms.VideoPlayer;assembly=Octane.Xamarin.Forms.VideoPlayer"
+             mc:Ignorable="d"
+             x:Class="WatchMeNow.View.VideoPage"
+             xmlns:vm="clr-namespace:WatchMeNow.ViewModel"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             Title="{Binding MovieTitle}">
+
+    <ContentPage.BindingContext>
+        <vm:MovieDetailViewModel x:Name="MovieDetailViewModel"/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="btnClose" Clicked="BtnClose_Clicked" IconImageSource="X.png"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <Grid BackgroundColor="Black">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="videoRowHeight" Height="265"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <WebView x:Name="wvVideo" Grid.Column="0" Grid.Row="0" Navigating="WvVideo_Navigating" Margin="-8,-8,-8,-8">
+                <WebView.Source>
+                    <HtmlWebViewSource x:Name="webSource" Html="{Binding MovieEmbedCode.Html}"/>
+                </WebView.Source>
+            </WebView>
+
+            <Grid x:Name="gridOptionButtons" Grid.Column="0" Grid.Row="1" BackgroundColor="Black" Margin="0,-8,0,0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="btnSpanish" CornerRadius="50" Text="SPA" Clicked="BtnSpanish_Clicked" Grid.Row="1" Grid.Column="0" IsEnabled="False" HorizontalOptions="CenterAndExpand" BackgroundColor="Orange" TextColor="Black"/>
+
+                <Button x:Name="btnEnglish" CornerRadius="50" Text="ENG" Clicked="BtnEnglish_Clicked" Grid.Row="1" Grid.Column="1" HorizontalOptions="CenterAndExpand" BackgroundColor="Orange" TextColor="Black"/>
+
+                <Button x:Name="btnFullScreen" CornerRadius="50" Text="FullScreen" Clicked="BtnFullScreen_Clicked" Grid.Row="1" Grid.Column="2" BackgroundColor="Orange" TextColor="Black" HorizontalOptions="End"/>
+
+            </Grid>
+
+            <ScrollView x:Name="svMovieInfo" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5" BackgroundColor="Black">
+                <Grid BackgroundColor="Black">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Year: " TextColor="Orange" Grid.Column="0" Grid.Row="0" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+                    <Label Text="Rated: " TextColor="Orange" Grid.Column="2" Grid.Row="0" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+                    
+                    <Label x:Name="lblYear" Text="{Binding MovieDetail.Year}" Grid.Column="1" Grid.Row="0" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <Label x:Name="lblRated" Text="{Binding MovieDetail.Rated}" Grid.Column="3" Grid.Row="0" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                    <Label Text="Released: " TextColor="Orange" Grid.Column="0" Grid.Row="1" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+                    <Label Text="Runtime: " TextColor="Orange" Grid.Column="2" Grid.Row="1" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblReleased" Text="{Binding MovieDetail.Released}" Grid.Column="1" Grid.Row="1" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <Label x:Name="lblRunTime" Text="{Binding MovieDetail.Runtime}" Grid.Column="3" Grid.Row="1" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                    <Label Text="Genre: " TextColor="Orange" Grid.Column="0" Grid.Row="2" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+                  
+                    <Label x:Name="lblGenre" Text="{Binding MovieDetail.Genre}" Grid.Column="1" Grid.Row="2" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+
+                    <Label Text="Director(s): " TextColor="Orange" Grid.Column="0" Grid.Row="3" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblDirectors" Text="{Binding MovieDetail.Director}" Grid.Column="1" Grid.Row="3" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+
+                    <Label Text="Actor(s): " TextColor="Orange" Grid.Column="0" Grid.Row="4" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblActors" Text="{Binding MovieDetail.Actors}" Grid.Column="1" Grid.Row="4" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+
+                    <Label Text="Plot: " TextColor="Orange" Grid.Column="0" Grid.Row="5" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblPlot" Text="{Binding MovieDetail.Plot}" Grid.Column="1" Grid.Row="5" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+
+                    <Label Text="Language(s): " TextColor="Orange" Grid.Column="0" Grid.Row="6" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblLanguages" Text="{Binding MovieDetail.Language}" Grid.Column="1" Grid.Row="6" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+
+                    <Label Text="Country: " TextColor="Orange" Grid.Column="0" Grid.Row="7" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblCountry" Text="{Binding MovieDetail.Country}" Grid.Column="1" Grid.Row="7" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+
+                    <Label Text="Award(s): " TextColor="Orange" Grid.Column="0" Grid.Row="8" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblAwards" Text="{Binding MovieDetail.Awards}" Grid.Column="1" Grid.Row="8" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+
+                    <Label Text="Ratings(s): " TextColor="Orange" Grid.Column="0" Grid.Row="9" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <ListView x:Name="ratingList" RowHeight="50" ItemsSource="{Binding RatingsList}" HasUnevenRows="True"  HeightRequest="{Binding RatingsListHeight}" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="4" SelectionMode="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Margin="0,5,0,5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="30"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Aspect="Fill" HeightRequest="50" WidthRequest="50" Grid.Column="1" Grid.Row="0" HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <UriImageSource Uri="{Binding RatingSiteUrl}" 
+			                                        CacheValidity="10" 
+			                                        CachingEnabled="true"/>
+                                            </Image.Source>
+                                        </Image>
+
+                                        <Label Text="{Binding Details.Value}" Grid.Column="2" Grid.Row="0" FontSize="Medium" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" />
+
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Label Text="DVD: " TextColor="Orange" Grid.Column="0" Grid.Row="11" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblDVD" Text="{Binding MovieDetail.DVD}" Grid.Column="1" Grid.Row="11" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+                    
+                    <Label Text="BoxOffice: " TextColor="Orange" Grid.Column="0" Grid.Row="12" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblBoxOffice" Text="{Binding MovieDetail.BoxOffice}" Grid.Column="1" Grid.Row="12" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+
+                    <Label Text="Production: " TextColor="Orange" Grid.Column="0" Grid.Row="13" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblProduction" Text="{Binding MovieDetail.Production}" Grid.Column="1" Grid.Row="13" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+
+                    <Label Text="Website: " TextColor="Orange" Grid.Column="0" Grid.Row="14" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start"/>
+
+                    <Label x:Name="lblwebsite" Text="{Binding MovieDetail.Website}" Grid.Column="1" Grid.Row="14" FontSize="Small" TextColor="DarkOrange" HorizontalOptions="Start" VerticalOptions="Center" Grid.ColumnSpan="3"/>
+
+                </Grid>
+            </ScrollView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

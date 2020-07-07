@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             mc:Ignorable="d"
+             x:Class="WatchMeNow.View.ArtistsPage"
+             xmlns:vm="clr-namespace:WatchMeNow.ViewModel" xmlns:animation="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             Title="{Binding Title}"
+             BackgroundColor="LightGray">
+
+    <ContentPage.BindingContext>
+        <vm:ArtistsViewModel x:Name="ArtistsViewModel"/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="btnShuffleSongs" IconImageSource="Shuffle.png" Clicked="btnShuffleSongs_Clicked" Priority="0" Order="Primary"/>
+        <ToolbarItem x:Name="btnCurrentlyPlaying" IconImageSource="CD.png" Clicked="BtnCurrentlyPlaying_Clicked" Priority="0" Order="Primary" IsEnabled="{Binding CurrentSongIsPlaying}"/>
+        <ToolbarItem x:Name="btnFavoriteSongs" IconImageSource="Heart.png" Clicked="BtnFavoriteSongs_Clicked" Priority="1" Order="Primary" IsEnabled="{Binding FavoritesIsEnabled}"/>
+        <ToolbarItem x:Name="btnArtistSearch" IconImageSource="MagnifyingGlass.png" Clicked="BtnArtistSearch_Clicked" Priority="2" Order="Primary"/>
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <StackLayout>
+
+            <SearchBar x:Name="sbArtists" IsVisible="false" Placeholder="Search" PlaceholderColor="WhiteSmoke"
+                       TextChanged="SbArtists_TextChanged" Unfocused="SbArtists_Unfocused" BackgroundColor="Black"
+                       TextColor="Orange" CancelButtonColor="DarkOrange"/>
+
+            <StackLayout>
+
+                <flv:FlowListView x:Name="flowList" FlowColumnCount="2" SeparatorVisibility="Default" HasUnevenRows="False" FlowItemsSource="{Binding ArtistList}"
+                                  FlowColumnMinWidth="100" RowHeight="200" FlowItemTappedCommand="{Binding ItemTappedCommand}"
+                                  IsPullToRefreshEnabled="True" BackgroundColor="DarkGray">
+
+                    <flv:FlowListView.FlowColumnTemplate>
+                        <DataTemplate>
+                            <Grid Padding="3">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Frame Grid.Row="0" Grid.Column="0" CornerRadius="20" IsClippedToBounds="True" Padding="0">
+                                    <Grid Padding="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Aspect="Fill" MinimumHeightRequest="100">
+                                            <Image.Source>
+                                                <UriImageSource Uri="{Binding CoverArt}" 
+			                                        CacheValidity="10" 
+			                                        CachingEnabled="true"/>
+                                            </Image.Source>
+                                        </Image>
+                                        <Label x:Name="Label" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalOptions="End" BackgroundColor="Black" Text="{Binding Name}" TextColor="Orange"/>
+
+                                    </Grid>
+                                </Frame>
+
+                            </Grid>
+                        </DataTemplate>
+                    </flv:FlowListView.FlowColumnTemplate>
+                
+                </flv:FlowListView>
+
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

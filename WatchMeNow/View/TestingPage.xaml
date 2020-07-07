@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:o="clr-namespace:Octane.Xamarin.Forms.VideoPlayer;assembly=Octane.Xamarin.Forms.VideoPlayer"
+             mc:Ignorable="d"
+             x:Class="WatchMeNow.View.TestingPage">
+
+    <ContentPage.Content>
+        <StackLayout>
+
+            <o:VideoPlayer x:Name="vpMovie" Source="https://redirect.veoh.com/flash/p/2/v141953570Fx8Ntcdh/h141953570.mp4?ct=8cfaaf752d2541069e30970d73382efe41b98bb17044b1cd" 
+                          
+                           />
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

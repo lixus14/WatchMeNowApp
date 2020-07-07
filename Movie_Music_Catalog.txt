@@ -1,0 +1,3 @@
+https://github.com/lixus14/WatchMeNow/blob/master/MovieCatalog.json
+
+https://github.com/lixus14/WatchMeNow/blob/master/MusicArtistCatalog.json
