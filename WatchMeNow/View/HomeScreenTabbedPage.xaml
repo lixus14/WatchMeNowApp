@@ -27,13 +27,13 @@
 
         </NavigationPage>
 
-        <!--<NavigationPage Title="Profile" BarTextColor="Orange" BarBackgroundColor="Black" Icon="User.png">
+        <NavigationPage Title="Profile" BarTextColor="Orange" BarBackgroundColor="Black" Icon="User.png">
 
             <x:Arguments>
                 <views:ProfilePage/>
             </x:Arguments>
 
-        </NavigationPage>-->
+        </NavigationPage>
 
     </TabbedPage.Children>
     

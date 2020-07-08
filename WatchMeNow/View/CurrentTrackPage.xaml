@@ -158,8 +158,8 @@
                                      AutoPlay="True"
                                      VerticalOptions="CenterAndExpand"
                                      HorizontalOptions="CenterAndExpand"
-                                     IsVisible="False"
-                                     IsEnabled="False"
+                                     IsVisible="{Binding IsBusy}"
+                                     IsEnabled="{Binding IsBusy}"
                                      />
 
         </Grid>

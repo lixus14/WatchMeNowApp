@@ -38,6 +38,10 @@ namespace WatchMeNow.View
         {
             var track = e.Item as MusicTrack;
 
+            var viewModel = (BindingContext as ArtistDetailViewModel);
+
+            viewModel.IsBusy = true;
+
             if (CrossMediaManager.Current != null && CrossMediaManager.Current.Queue != null &&
                 CrossMediaManager.Current.Queue.Current != null && CrossMediaManager.Current.Queue.Current.MediaUri.Equals(track.FileUrl))
             {
@@ -46,15 +50,11 @@ namespace WatchMeNow.View
                     BarBackgroundColor = Color.Black,
                     BarTextColor = Color.Orange
                 });
+
+                viewModel.IsBusy = false;
             }
             else
             {
-
-                LoadingAnimation.IsVisible = true;
-                LoadingAnimation.IsEnabled = true;
-
-                var viewModel = (BindingContext as ArtistDetailViewModel);
-
                 var artist = viewModel.MusicArtistDetail;
 
                 var artistTrackList = artist.TrackList;
@@ -110,8 +110,7 @@ namespace WatchMeNow.View
                     BarTextColor = Color.Orange
                 });
 
-                LoadingAnimation.IsVisible = false;
-                LoadingAnimation.IsEnabled = false;
+                viewModel.IsBusy = false;
             }
 
         }

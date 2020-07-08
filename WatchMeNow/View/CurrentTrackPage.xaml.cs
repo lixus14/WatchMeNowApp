@@ -75,11 +75,13 @@ namespace WatchMeNow.View
         {
             var currentSongUri = CrossMediaManager.Current.Queue.Current.MediaUri;
 
+            var vm = (BindingContext as CurrentTrackViewModel);
+
+            vm.IsBusy = true;
+
             if(CrossMediaManager.Current.Position.TotalSeconds < 5.0)
             {
-                LoadingAnimation.IsVisible = true;
-                LoadingAnimation.IsEnabled = true;
-
+                
                 MusicPlayingAnimation.IsEnabled = false;
 
                 using (SQLiteConnection cnn = new SQLiteConnection(Settings.LocalDataBasePath))
@@ -92,8 +94,6 @@ namespace WatchMeNow.View
 
                     if (currentlyPlayingSong != null)
                     {
-                        //await imgFrame.RotateTo(0, 100);
-
                         var songNumber = songList.IndexOf(currentlyPlayingSong);
 
                         if (songNumber == 0)
@@ -149,20 +149,19 @@ namespace WatchMeNow.View
 
                 }
 
-                LoadingAnimation.IsVisible = false;
-                LoadingAnimation.IsEnabled = false;
+                vm.IsBusy = false;
 
                 MusicPlayingAnimation.IsEnabled = true;
             }
             else
             {
-                //await imgFrame.RotateTo(0, 100);
-
                 await CrossMediaManager.Current.Pause();
 
                 await CrossMediaManager.Current.SeekToStart();
 
                 await CrossMediaManager.Current.Play();
+
+                vm.IsBusy = false;
             }
             
         }
@@ -171,8 +170,9 @@ namespace WatchMeNow.View
         {
             var currentSongUri = CrossMediaManager.Current.Queue.Current.MediaUri;
 
-            LoadingAnimation.IsVisible = true;
-            LoadingAnimation.IsEnabled = true;
+            var vm = (BindingContext as CurrentTrackViewModel);
+
+            vm.IsBusy = true;
 
             MusicPlayingAnimation.IsEnabled = false;
 
@@ -186,8 +186,6 @@ namespace WatchMeNow.View
 
                 if (currentlyPlayingSong != null)
                 {
-                    //await imgFrame.RotateTo(0, 100);
-
                     var songNumber = songList.IndexOf(currentlyPlayingSong);
 
                     if (songNumber == (songList.Count - 1))
@@ -244,8 +242,7 @@ namespace WatchMeNow.View
 
             }
 
-            LoadingAnimation.IsVisible = false;
-            LoadingAnimation.IsEnabled = false;
+            vm.IsBusy = false;
 
             MusicPlayingAnimation.IsEnabled = true;
 
@@ -285,9 +282,15 @@ namespace WatchMeNow.View
 
         #endregion
 
-        private void btnLyrics_Clicked(object sender, EventArgs e)
+        private async void btnLyrics_Clicked(object sender, EventArgs e)
         {
-            PopupNavigation.Instance.PushAsync(new LyricPopUpPage());
+            var vm = (BindingContext as CurrentTrackViewModel);
+
+            vm.IsBusy = true;
+
+            await PopupNavigation.Instance.PushAsync(new LyricPopUpPage());
+
+            vm.IsBusy = false;
         }
     }
 }

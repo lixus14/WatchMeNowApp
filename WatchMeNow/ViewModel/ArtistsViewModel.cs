@@ -2,7 +2,9 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using WatchMeNow.Model;
@@ -13,7 +15,7 @@ using Xamarin.Forms;
 
 namespace WatchMeNow.ViewModel
 {
-    public class ArtistsViewModel
+    public class ArtistsViewModel: BasicViewModel
     {
         #region Constructor
         public ArtistsViewModel()
@@ -36,9 +38,12 @@ namespace WatchMeNow.ViewModel
         #region Properties
         private ArtistService _artistService { get; set; }
 
-        public List<ArtistListItem> ArtistList { get; set; }
-
-        public string Title { get; set; }
+        private List<ArtistListItem> _artistList;
+        public List<ArtistListItem> ArtistList
+        {
+            get { return _artistList; }
+            set { _artistList = value; OnPropertyChanged(); }
+        }
 
         public ICommand ItemTappedCommand { get; set; }
 
@@ -75,6 +80,7 @@ namespace WatchMeNow.ViewModel
 
         public void LoadData()
         {
+            IsBusy = true;
 
             try
             {
@@ -87,6 +93,7 @@ namespace WatchMeNow.ViewModel
                     ArtistList.Add(artist);
                 }
 
+                IsBusy = false;
             }
             catch(Exception ex)
             {

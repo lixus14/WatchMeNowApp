@@ -45,8 +45,8 @@
                 <Entry x:Name="txtCatalogEntry" Placeholder="Link Address" Grid.Row="5" Grid.Column="0"/>
 
                 <Button x:Name="btnUpdateCatalogAddress" Text="UPDATE" Grid.Row="6" Grid.Column="0" Clicked="BtnUpdateCatalogAddress_Clicked"/>
+                <Button x:Name="clearCache" Text="Clear Cache" Grid.Row="7" Grid.Column="0" Clicked="clearCache_Clicked"/>
 
-                
             </Grid>
         </ScrollView>
     </ContentPage.Content>

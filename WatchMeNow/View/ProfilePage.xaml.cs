@@ -68,5 +68,10 @@ namespace WatchMeNow.View
                 await DisplayAlert("Complete", "Update Complete!", "OK");
             }
         }
+
+        private void clearCache_Clicked(object sender, EventArgs e)
+        {
+            Utilities.DeleteLocalDataBase();
+        }
     }
 }

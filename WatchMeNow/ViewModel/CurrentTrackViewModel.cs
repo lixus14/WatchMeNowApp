@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace WatchMeNow.ViewModel
 {
-    public class CurrentTrackViewModel
+    public class CurrentTrackViewModel: BasicViewModel
     {
         #region Constructor
 
@@ -45,6 +45,8 @@ namespace WatchMeNow.ViewModel
 
         public void LoadData()
         {
+            IsBusy = true;
+
             using (SQLiteConnection cnn = new SQLiteConnection(Settings.LocalDataBasePath))
             {
                 var currentTrackTable = cnn.Table<Utilities.CurrentTrack>();
@@ -71,9 +73,8 @@ namespace WatchMeNow.ViewModel
 
                     ArtistName = row.ArtistName;
                 }
-                
-                //cnn.Execute("DELETE FROM CurrentTrack");
 
+                IsBusy = false;
             }
 
             PlayPauseSource = "Play.png";

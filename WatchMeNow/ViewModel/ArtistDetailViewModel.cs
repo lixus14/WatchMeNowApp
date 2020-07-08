@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace WatchMeNow.ViewModel
 {
-    public class ArtistDetailViewModel
+    public class ArtistDetailViewModel: BasicViewModel
     {
         #region Constructor
 
@@ -35,7 +35,12 @@ namespace WatchMeNow.ViewModel
 
         public ArtistService _artistService { get; set; }
 
-        public MusicArtistDetail MusicArtistDetail { get; set; }
+        public MusicArtistDetail _musicArtistDetail;
+        public MusicArtistDetail MusicArtistDetail 
+        {
+            get { return _musicArtistDetail; }
+            set { _musicArtistDetail = value; OnPropertyChanged(); }
+        }
 
         #endregion
 
@@ -43,6 +48,8 @@ namespace WatchMeNow.ViewModel
 
         public void LoadData()
         {
+            IsBusy = true;
+
             using (SQLiteConnection cnn = new SQLiteConnection(Settings.LocalDataBasePath))
             {
                 var currentArtistTable = cnn.Table<Utilities.CurrentArtist>();
@@ -62,6 +69,8 @@ namespace WatchMeNow.ViewModel
                         MusicArtistDetail = adetails;
 
                         SetFavoriteSongsInList(MusicArtistDetail);
+
+                        IsBusy = false;
 
                     }
                     catch (Exception ex)

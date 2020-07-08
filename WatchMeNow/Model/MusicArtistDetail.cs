@@ -4,13 +4,28 @@ using System.Text;
 
 namespace WatchMeNow.Model
 {
-    public class MusicArtistDetail
+    public class MusicArtistDetail:BasicModel
     {
-        public string Name { get; set; }
+        private string _name;
+        public string Name 
+        {
+            get { return _name; }
+            set { _name = value; OnPropertyChanged(); }
+        }
 
-        public string CoverArt { get; set; }
+        private string _coverArt;
+        public string CoverArt 
+        {
+            get { return _coverArt; }
+            set { _coverArt = value; OnPropertyChanged(); }
+        }
 
-        public List<MusicTrack> TrackList { get; set; }
+        private List<MusicTrack> _trackList;
+        public List<MusicTrack> TrackList
+        {
+            get { return _trackList; }
+            set { _trackList = value; OnPropertyChanged(); }
+        }
 
     }
 }

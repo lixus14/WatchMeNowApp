@@ -32,7 +32,7 @@
 
                 <flv:FlowListView x:Name="flowList" FlowColumnCount="2" SeparatorVisibility="Default" HasUnevenRows="False" FlowItemsSource="{Binding ArtistList}"
                                   FlowColumnMinWidth="100" RowHeight="200" FlowItemTappedCommand="{Binding ItemTappedCommand}"
-                                  IsPullToRefreshEnabled="True" BackgroundColor="DarkGray">
+                                  IsPullToRefreshEnabled="True" BackgroundColor="DarkGray" IsRefreshing="{Binding IsBusy}">
 
                     <flv:FlowListView.FlowColumnTemplate>
                         <DataTemplate>
@@ -56,11 +56,12 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Image Aspect="Fill" MinimumHeightRequest="100">
+                                        <Image Aspect="Fill" MinimumHeightRequest="100" x:Name="ArtistCoverImage">
                                             <Image.Source>
                                                 <UriImageSource Uri="{Binding CoverArt}" 
-			                                        CacheValidity="10" 
-			                                        CachingEnabled="true"/>
+                                                    CacheValidity="10" 
+			                                        CachingEnabled="true"
+                                                                />
                                             </Image.Source>
                                         </Image>
                                         <Label x:Name="Label" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalOptions="End" BackgroundColor="Black" Text="{Binding Name}" TextColor="Orange"/>
@@ -75,6 +76,8 @@
                 </flv:FlowListView>
 
             </StackLayout>
+
+            
 
         </StackLayout>
     </ContentPage.Content>
