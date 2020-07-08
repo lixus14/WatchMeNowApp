@@ -12,6 +12,7 @@ using WatchMeNow.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using WatchMeNow.Utils;
+using System.Collections.ObjectModel;
 
 namespace WatchMeNow.View
 {
@@ -61,9 +62,7 @@ namespace WatchMeNow.View
 
                     vm.LoadData();
 
-                    flowList.FlowItemsSource = vm.ArtistList.ToList();
-
-                    flowList.EndRefresh();
+                    flowList.FlowItemsSource = vm.ArtistList;
                 });
             }
         }
@@ -131,7 +130,7 @@ namespace WatchMeNow.View
             {
                 try
                 {
-                    var adetails = _artistService.GetArtistDetail(trackUrl);
+                    var adetails = await _artistService.GetArtistDetail(trackUrl);
 
                     foreach (var track in adetails.TrackList)
                     {
@@ -194,6 +193,7 @@ namespace WatchMeNow.View
             });
 
         }
+
 
     }
 }

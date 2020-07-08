@@ -11,13 +11,13 @@ namespace WatchMeNow.Services
     public class ArtistService
     {
 
-        public MusicArtistList GetArtistCatalog(string serviceUri)
+        public async Task<MusicArtistList> GetArtistCatalog(string serviceUri)
         {
             try
             {
                 RestClient<MusicArtistList> restClient = new RestClient<MusicArtistList>();
 
-                MusicArtistList list = Task.Run(async () => await restClient.GetAsync(serviceUri)).Result;
+                MusicArtistList list = await restClient.GetAsync(serviceUri);
 
                 return list;
             }
@@ -28,13 +28,13 @@ namespace WatchMeNow.Services
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
-        public MusicArtistDetail GetArtistDetail(string serviceUri)
+        public async Task<MusicArtistDetail> GetArtistDetail(string serviceUri)
         {
             try
             {
                 RestClient<MusicArtistDetail> restClient = new RestClient<MusicArtistDetail>();
 
-                MusicArtistDetail detail = Task.Run(async () => await restClient.GetAsync(serviceUri)).Result;
+                MusicArtistDetail detail = await restClient.GetAsync(serviceUri);
 
                 return detail;
             }

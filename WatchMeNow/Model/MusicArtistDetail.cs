@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace WatchMeNow.Model
@@ -20,8 +21,8 @@ namespace WatchMeNow.Model
             set { _coverArt = value; OnPropertyChanged(); }
         }
 
-        private List<MusicTrack> _trackList;
-        public List<MusicTrack> TrackList
+        private ObservableCollection<MusicTrack> _trackList;
+        public ObservableCollection<MusicTrack> TrackList
         {
             get { return _trackList; }
             set { _trackList = value; OnPropertyChanged(); }

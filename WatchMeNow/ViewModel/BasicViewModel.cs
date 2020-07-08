@@ -12,21 +12,21 @@ namespace WatchMeNow.ViewModel
         public string Title
         {
             get { return _title; }
-            set { _title = value; OnPropertyChanged(); }
+            set { _title = value; OnPropertyChanged("Title"); }
         }
 
         private bool _isBusy;
         public bool IsBusy
         {
             get { return _isBusy; }
-            set { _isBusy = value; OnPropertyChanged(); }
+            set { _isBusy = value; OnPropertyChanged("IsBusy"); }
         }
 
         private bool _isLoading;
         public bool IsLoading
         {
             get { return _isLoading; }
-            set { _isLoading = value; OnPropertyChanged(); }
+            set { _isLoading = value; OnPropertyChanged("IsLoading"); }
         }
 
 

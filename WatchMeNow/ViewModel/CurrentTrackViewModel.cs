@@ -1,4 +1,5 @@
-﻿using Lottie.Forms;
+﻿using Android.Icu.Util;
+using Lottie.Forms;
 using MediaManager;
 using SQLite;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using WatchMeNow.Model;
 using WatchMeNow.Services;
 using WatchMeNow.Utils;
@@ -27,17 +29,47 @@ namespace WatchMeNow.ViewModel
 
         #region Properties
 
-        public MusicTrack Track { get; set; }
+        private MusicTrack _track;
+        public MusicTrack Track
+        {
+            get { return _track; }
+            set { _track = value; OnPropertyChanged("Track"); }
+        }
 
-        public string CoverArtUrl { get; set; }
+        private string _coverArtUrl;
+        public string CoverArtUrl
+        {
+            get { return _coverArtUrl; }
+            set { _coverArtUrl = value; OnPropertyChanged("CoverArtUrl"); }
+        }
 
-        public string TrackIsLikedSource { get; set; }
+        private string _trackIsLikedSource;
+        public string TrackIsLikedSource
+        {
+            get { return _trackIsLikedSource; }
+            set { _trackIsLikedSource = value; OnPropertyChanged("TrackIsLikedSource"); }
+        }
 
-        public string ArtistName { get; set; }
+        private string _artistName;
+        public string ArtistName
+        {
+            get { return _artistName; }
+            set { _artistName = value; OnPropertyChanged("ArtistName"); }
+        }
 
-        public bool AnimationIsPlaying { get; set; }
+        private bool _animationIsPlaying;
+        public bool AnimationIsPlaying
+        {
+            get { return _animationIsPlaying; }
+            set { _animationIsPlaying = value; OnPropertyChanged("AnimationIsPlaying"); }
+        }
 
-        public string PlayPauseSource { get; set; }
+        private string _playPauseSource;
+        public string PlayPauseSource
+        {
+            get { return _playPauseSource; }
+            set { _playPauseSource = value; OnPropertyChanged("PlayPauseSource"); }
+        }
 
         #endregion
 
@@ -45,79 +77,85 @@ namespace WatchMeNow.ViewModel
 
         public void LoadData()
         {
-            IsBusy = true;
-
-            using (SQLiteConnection cnn = new SQLiteConnection(Settings.LocalDataBasePath))
+            Task.Run(async () =>
             {
-                var currentTrackTable = cnn.Table<Utilities.CurrentTrack>();
+                IsBusy = true;
 
-                var currentTrackUrl = CrossMediaManager.Current.Queue.Current.MediaUri;
-
-                var row = currentTrackTable.ToList().Where(x => x.FileUrl == currentTrackUrl).FirstOrDefault();
-
-                if (row != null)
+                using (SQLiteConnection cnn = new SQLiteConnection(Settings.LocalDataBasePath))
                 {
-                    Track = new MusicTrack()
+                    var currentTrackTable = cnn.Table<Utilities.CurrentTrack>();
+
+                    var currentTrackUrl = CrossMediaManager.Current.Queue.Current.MediaUri;
+
+                    var row = currentTrackTable.ToList().Where(x => x.FileUrl == currentTrackUrl).FirstOrDefault();
+
+                    if (row != null)
                     {
-                        Name = row.Name,
-                        FileUrl = row.FileUrl,
-                        TrackNumber = row.TrackNumber,
-                        TrackLenght = row.TrackLenght,
-                        LyricsUrl = row.LyricsUrl,
-                        IsFavorite = Utilities.IsCurrentSongFavorite(row.FileUrl)
-                    };
+                        Track = new MusicTrack()
+                        {
+                            Name = row.Name,
+                            FileUrl = row.FileUrl,
+                            TrackNumber = row.TrackNumber,
+                            TrackLenght = row.TrackLenght,
+                            LyricsUrl = row.LyricsUrl,
+                            IsFavorite = Utilities.IsCurrentSongFavorite(row.FileUrl)
+                        };
 
-                    CoverArtUrl = row.CoverArt;
+                        CoverArtUrl = row.CoverArt;
 
-                    TrackIsLikedSource = Utilities.IsCurrentSongFavorite(row.FileUrl) ? "Heart.png" : "Heart_Empty.png";
+                        TrackIsLikedSource = Utilities.IsCurrentSongFavorite(row.FileUrl) ? "Heart.png" : "Heart_Empty.png";
 
-                    ArtistName = row.ArtistName;
+                        ArtistName = row.ArtistName;
+                    }
+
+                    IsBusy = false;
                 }
 
-                IsBusy = false;
-            }
+                PlayPauseSource = "Play.png";
+                AnimationIsPlaying = false;
 
-            PlayPauseSource = "Play.png";
-            AnimationIsPlaying = false;
-
-            CrossMediaManager.Current.BufferedChanged += (sender, e) =>
-            {
-                var currentPageCount = App.Current.MainPage.Navigation.ModalStack.Count;
-
-                if (currentPageCount > 0)
+                CrossMediaManager.Current.BufferedChanged += (sender, e) =>
                 {
-                    var currentModalPage = App.Current.MainPage.Navigation.ModalStack[currentPageCount - 1];
+                    var currentPageCount = App.Current.MainPage.Navigation.ModalStack.Count;
 
-                    var currentModalNavigationCount = currentModalPage.Navigation.NavigationStack.Count;
-
-                    if (currentModalNavigationCount > 0)
+                    if (currentPageCount > 0)
                     {
-                        var currentPage = currentModalPage.Navigation.NavigationStack[currentModalNavigationCount - 1];
+                        var currentModalPage = App.Current.MainPage.Navigation.ModalStack[currentPageCount - 1];
 
-                        if (currentPage is CurrentTrackPage)
+                        var currentModalNavigationCount = currentModalPage.Navigation.NavigationStack.Count;
+
+                        if (currentModalNavigationCount > 0)
                         {
-                            var bufferProgress = currentPage.FindByName<ProgressBar>("bufferProgress");
+                            var currentPage = currentModalPage.Navigation.NavigationStack[currentModalNavigationCount - 1];
 
-                            //Update buffer line
-                            using (SQLiteConnection cnn = new SQLiteConnection(Settings.LocalDataBasePath))
+                            if (currentPage is CurrentTrackPage)
                             {
-                                var currentTrackTable = cnn.Table<Utilities.CurrentTrack>();
+                                var bufferProgress = currentPage.FindByName<ProgressBar>("bufferProgress");
 
-                                var currentTrackUrl = CrossMediaManager.Current.Queue.Current.MediaUri;
+                                //Update buffer line
+                                using (SQLiteConnection cnn = new SQLiteConnection(Settings.LocalDataBasePath))
+                                {
+                                    var currentTrackTable = cnn.Table<Utilities.CurrentTrack>();
 
-                                var row = currentTrackTable.ToList().Where(x => x.FileUrl == currentTrackUrl).FirstOrDefault();
+                                    var currentTrackUrl = CrossMediaManager.Current.Queue.Current.MediaUri;
 
-                                var trackLengthParts = row.TrackLenght.Split(':');
+                                    var row = currentTrackTable.ToList().Where(x => x.FileUrl == currentTrackUrl).FirstOrDefault();
 
-                                var songLengthInTime = TimeSpan.FromMinutes(Convert.ToDouble(trackLengthParts[0])).TotalSeconds + TimeSpan.FromSeconds(Convert.ToDouble(trackLengthParts[1])).TotalSeconds;
+                                    var trackLengthParts = row.TrackLenght.Split(':');
 
-                                bufferProgress.Progress = CrossMediaManager.Current.Buffered.TotalSeconds / songLengthInTime;
+                                    var songLengthInTime = TimeSpan.FromMinutes(Convert.ToDouble(trackLengthParts[0])).TotalSeconds + TimeSpan.FromSeconds(Convert.ToDouble(trackLengthParts[1])).TotalSeconds;
+
+                                    bufferProgress.Progress = CrossMediaManager.Current.Buffered.TotalSeconds / songLengthInTime;
+                                }
                             }
                         }
                     }
-                }
-            };
+                };
 
+
+            });
+
+            
             CrossMediaManager.Current.PositionChanged += (sender, e) =>
             {
                 Device.BeginInvokeOnMainThread(async () =>

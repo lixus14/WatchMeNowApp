@@ -2,10 +2,12 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using WatchMeNow.Model;
 using WatchMeNow.Services;
@@ -21,13 +23,11 @@ namespace WatchMeNow.ViewModel
         public ArtistsViewModel()
         {
             _artistService = new ArtistService();
-
-            ArtistList = new List<ArtistListItem>();
            
             Title = "Music";
 
-            ItemTappedCommand = new Command((param) => 
-                OpenArtist(param)
+            ItemTappedCommand = new Command(async (param) => 
+                await OpenArtist(param)
             );
 
             LoadData();
@@ -38,11 +38,11 @@ namespace WatchMeNow.ViewModel
         #region Properties
         private ArtistService _artistService { get; set; }
 
-        private List<ArtistListItem> _artistList;
-        public List<ArtistListItem> ArtistList
+        private ObservableCollection<ArtistListItem> _artistList;
+        public ObservableCollection<ArtistListItem> ArtistList
         {
             get { return _artistList; }
-            set { _artistList = value; OnPropertyChanged(); }
+            set { _artistList = value; OnPropertyChanged("ArtistList"); }
         }
 
         public ICommand ItemTappedCommand { get; set; }
@@ -54,8 +54,8 @@ namespace WatchMeNow.ViewModel
         #endregion
 
         #region Methods
-        [Obsolete]
-        private void OpenArtist(object param)
+
+        private async Task OpenArtist(object param)
         {
             var artistDetail = param as ArtistListItem;
 
@@ -71,7 +71,7 @@ namespace WatchMeNow.ViewModel
                 });
             }
 
-            App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(new ArtistDetailPage())
+            await App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(new ArtistDetailPage())
             {
                 BarBackgroundColor = Color.Black,
                 BarTextColor = Color.Orange
@@ -80,26 +80,33 @@ namespace WatchMeNow.ViewModel
 
         public void LoadData()
         {
-            IsBusy = true;
-
-            try
+            Task.Run(async () =>
             {
-                ArtistList.Clear();
+                IsBusy = true;
 
-                var catalog = _artistService.GetArtistCatalog(Settings.ArtistCatalog);
-
-                foreach(var artist in catalog.ArtistCatalog)
+                try
                 {
-                    ArtistList.Add(artist);
-                }
 
-                IsBusy = false;
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            
+                    var newList = new ObservableCollection<ArtistListItem>();
+
+                    var catalog = await _artistService.GetArtistCatalog(Settings.ArtistCatalog);
+
+                    foreach (var artist in catalog.ArtistCatalog)
+                    {
+                        newList.Add(artist);
+                    }
+
+                    ArtistList = newList;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+            });
 
         }
 

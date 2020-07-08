@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace WatchMeNow.Model
 {
-    public class MusicArtistList
+    public class MusicArtistList:BasicModel
     {
-        public List<ArtistListItem> ArtistCatalog { get; set; }
+        private ObservableCollection<ArtistListItem> _artistCatalog;
+        public ObservableCollection<ArtistListItem> ArtistCatalog
+        {
+            get { return _artistCatalog; }
+            set { _artistCatalog = value; OnPropertyChanged(); }
+        }
     }
 }

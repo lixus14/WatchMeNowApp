@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using WatchMeNow.Model;
 using WatchMeNow.Services;
 using WatchMeNow.Utils;
@@ -29,9 +30,19 @@ namespace WatchMeNow.ViewModel
 
         #region Properties
 
-        public string Name { get; set; }
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; OnPropertyChanged(); }
+        }
 
-        public string CoverArt { get; set; }
+        private string _coverArt;
+        public string CoverArt
+        {
+            get { return _coverArt; }
+            set { _coverArt = value; OnPropertyChanged(); }
+        }
 
         public ArtistService _artistService { get; set; }
 
@@ -48,40 +59,43 @@ namespace WatchMeNow.ViewModel
 
         public void LoadData()
         {
-            IsBusy = true;
-
-            using (SQLiteConnection cnn = new SQLiteConnection(Settings.LocalDataBasePath))
+            Task.Run(async () =>
             {
-                var currentArtistTable = cnn.Table<Utilities.CurrentArtist>();
+                IsBusy = true;
 
-                var row = currentArtistTable.FirstOrDefault();
-
-                if(row != null)
+                using (SQLiteConnection cnn = new SQLiteConnection(Settings.LocalDataBasePath))
                 {
-                    Name = row.Name;
+                    var currentArtistTable = cnn.Table<Utilities.CurrentArtist>();
 
-                    CoverArt = row.CoverArt;
-                    
-                    try
+                    var row = currentArtistTable.FirstOrDefault();
+
+                    if (row != null)
                     {
-                        var adetails = _artistService.GetArtistDetail(row.TrackList);
+                        Name = row.Name;
 
-                        MusicArtistDetail = adetails;
+                        CoverArt = row.CoverArt;
 
-                        SetFavoriteSongsInList(MusicArtistDetail);
+                        try
+                        {
+                            var adetails = await _artistService.GetArtistDetail(row.TrackList);
 
-                        IsBusy = false;
+                            MusicArtistDetail = adetails;
 
+                            SetFavoriteSongsInList(MusicArtistDetail);
+
+                            IsBusy = false;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
+
+                    cnn.Execute("DELETE FROM CurrentArtist");
+
                 }
-
-                cnn.Execute("DELETE FROM CurrentArtist");
-
-            }
+            });
 
         }
 
