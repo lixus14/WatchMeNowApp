@@ -60,7 +60,11 @@ namespace WatchMeNow.View
                 {
                     var vm = (BindingContext as ArtistsViewModel);
 
+                    vm.IsLoading = true;
+
                     vm.LoadData();
+
+                    vm.IsLoading = false;
 
                     flowList.FlowItemsSource = vm.ArtistList;
                 });
@@ -112,6 +116,8 @@ namespace WatchMeNow.View
         {
             var vm = (BindingContext as ArtistsViewModel);
 
+            vm.IsBusy = true;
+
             flowList.IsEnabled = false;
 
             var artistsList = vm.ArtistList;
@@ -126,28 +132,36 @@ namespace WatchMeNow.View
             var _artistService = new ArtistService();
             var trackList = new List<MusicTrack>();
 
+            var taskList = new List<Task<MusicArtistDetail>>();
+
             foreach(var trackUrl in ArtistTracksUrls)
             {
                 try
                 {
-                    var adetails = await _artistService.GetArtistDetail(trackUrl);
 
-                    foreach (var track in adetails.TrackList)
-                    {
-                        var random = new Random();
-
-                        track.TrackCoverArt = adetails.CoverArt;
-
-                        if (trackList.Count == 0)
-                            trackList.Add(track);
-                        else
-                            trackList.Insert(random.Next(trackList.Count), track);
-                    }
+                    taskList.Add(_artistService.GetArtistDetail(trackUrl));
                         
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                }
+            }
+
+            await Task.WhenAll(taskList);
+
+            foreach(var task in taskList)
+            {
+                foreach (var track in task.Result.TrackList)
+                {
+                    var random = new Random();
+
+                    track.TrackCoverArt = task.Result.CoverArt;
+
+                    if (trackList.Count == 0)
+                        trackList.Add(track);
+                    else
+                        trackList.Insert(random.Next(trackList.Count), track);
                 }
             }
 
@@ -191,6 +205,8 @@ namespace WatchMeNow.View
                 BarBackgroundColor = Color.Black,
                 BarTextColor = Color.Orange
             });
+
+            vm.IsBusy = false;
 
         }
 
