@@ -99,7 +99,7 @@ namespace WatchMeNow.ViewModel
 
         }
 
-        private void SetFavoriteSongsInList(MusicArtistDetail musicArtistDetail)
+        public void SetFavoriteSongsInList(MusicArtistDetail musicArtistDetail)
         {
             var songList = musicArtistDetail.TrackList;
 

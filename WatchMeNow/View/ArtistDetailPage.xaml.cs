@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using WatchMeNow.Model;
 using WatchMeNow.Utils;
 using WatchMeNow.ViewModel;
@@ -102,7 +103,7 @@ namespace WatchMeNow.View
                 if (CrossMediaManager.Current.Queue.Count > 0)
                     CrossMediaManager.Current.Queue.Clear();
 
-                await CrossMediaManager.Current.Play(songUris);
+                await Task.Run(async () => { await CrossMediaManager.Current.Play(songUris); });
 
                 await App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(new CurrentTrackPage())
                 {
@@ -113,6 +114,16 @@ namespace WatchMeNow.View
                 viewModel.IsBusy = false;
             }
 
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            var vm = (BindingContext as ArtistDetailViewModel);
+
+            if(vm.MusicArtistDetail.TrackList != null)
+                vm.SetFavoriteSongsInList(vm.MusicArtistDetail);
         }
 
         #endregion

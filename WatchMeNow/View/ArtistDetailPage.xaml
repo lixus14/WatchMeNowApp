@@ -32,13 +32,22 @@
             </Grid.RowDefinitions>
 
             <Frame MinimumHeightRequest="100" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" IsClippedToBounds="True" Padding="0" BackgroundColor="Black">
-                <Image Aspect="AspectFill">
-                    <Image.Source>
-                        <UriImageSource Uri="{Binding CoverArt}" 
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ActivityIndicator BindingContext="{x:Reference ArtistCoverImage}" WidthRequest="20" HeightRequest="20" IsRunning="{Binding IsLoading}" Color="Orange" BackgroundColor="Black"/>
+                    <Image Aspect="AspectFill" x:Name="ArtistCoverImage">
+                        <Image.Source>
+                            <UriImageSource Uri="{Binding CoverArt}" 
 			                CacheValidity="10" 
 			                CachingEnabled="true"/>
-                    </Image.Source>
-                </Image>
+                        </Image.Source>
+                    </Image>
+                </Grid>
             </Frame>
 
             <yummy:PancakeView Grid.Column="0" CornerRadius="20,20,0,0" Grid.Row="1" Grid.RowSpan="2" IsClippedToBounds="True" Padding="0" BackgroundColor="DarkGray">

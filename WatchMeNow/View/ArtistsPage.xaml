@@ -64,6 +64,7 @@
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
 
+                                            <ActivityIndicator BindingContext="{x:Reference ArtistCoverImage}" WidthRequest="20" HeightRequest="20" IsRunning="{Binding IsLoading}" Color="Orange" BackgroundColor="Black"/>
                                             <Image Aspect="Fill" MinimumHeightRequest="100" x:Name="ArtistCoverImage">
                                                 <Image.Source>
                                                     <UriImageSource Uri="{Binding CoverArt}" 
@@ -72,6 +73,7 @@
                                                                 />
                                                 </Image.Source>
                                             </Image>
+                                            
                                             <Label x:Name="Label" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalOptions="End" BackgroundColor="Black" Text="{Binding Name}" TextColor="Orange"/>
 
                                         </Grid>
