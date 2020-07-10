@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             mc:Ignorable="d"
+             x:Class="WatchMeNow.View.RadioStationsPage"
+             xmlns:vm="clr-namespace:WatchMeNow.ViewModel" 
+             xmlns:animation="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             Title="{Binding Title}"
+             BackgroundColor="LightGray">
+
+    <ContentPage.BindingContext>
+        <vm:RadioStationsViewModel x:Name="RadioStationsViewModel"/>
+    </ContentPage.BindingContext>
+
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="btnCurrentlyPlaying" IconImageSource="CD.png" Clicked="BtnCurrentlyPlaying_Clicked" Priority="0" Order="Primary" IsEnabled="{Binding CurrentSongIsPlaying}"/>
+        <ToolbarItem x:Name="btnRadioStationSearch" IconImageSource="MagnifyingGlass.png" Clicked="BtnRadioStationSearch_Clicked" Priority="2" Order="Primary"/>
+    </ContentPage.ToolbarItems>-->
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Frame BackgroundColor="White" HeightRequest="100">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <ActivityIndicator Grid.Row="0" Grid.Column="0" BindingContext="{x:Reference CurrentRadioStationCoverImage}" WidthRequest="50" HeightRequest="50" IsRunning="{Binding IsLoading}" Color="Orange" BackgroundColor="Black"/>
+                    <Image Aspect="Fill" Grid.Row="0" Grid.Column="0" HeightRequest="50" x:Name="CurrentRadioStationCoverImage">
+                        <Image.Source>
+                            <UriImageSource Uri="{Binding CurrentRadioStation.CoverArt}" />
+                        </Image.Source>
+                    </Image>
+                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding CurrentRadioStation.Name}" HeightRequest="50" TextColor="Black"/>
+
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRadioStation.Frequency}" HeightRequest="50" TextColor="Black"/>
+                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding CurrentRadioStation.FrequencyType}" HeightRequest="50" TextColor="Black"/>
+                    
+                    
+                </Grid>
+            </Frame>
+
+            <StackLayout Grid.Row="1" Grid.Column="0">
+
+                <!--<SearchBar x:Name="sbRadioStation" IsVisible="false" Placeholder="Search" PlaceholderColor="WhiteSmoke"
+                       TextChanged="SbRadioStation_TextChanged" Unfocused="SbRadioStation_Unfocused" BackgroundColor="Black"
+                       TextColor="Orange" CancelButtonColor="DarkOrange"/>-->
+
+                <StackLayout>
+
+                    <flv:FlowListView x:Name="flowList" FlowColumnCount="3" SeparatorVisibility="Default" HasUnevenRows="False" FlowItemsSource="{Binding RadioStationList}"
+                                  FlowColumnMinWidth="100" RowHeight="100" FlowItemTappedCommand="{Binding ItemTappedCommand}"
+                                  IsPullToRefreshEnabled="True" BackgroundColor="DarkGray">
+
+                        <flv:FlowListView.FlowColumnTemplate>
+                            <DataTemplate>
+                                <Grid Padding="3">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Frame Grid.Row="0" Grid.Column="0" CornerRadius="20" IsClippedToBounds="True" Padding="0">
+                                        <Grid Padding="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <ActivityIndicator BindingContext="{x:Reference CoverImage}" WidthRequest="20" HeightRequest="20" IsRunning="{Binding IsLoading}" Color="Orange" BackgroundColor="Black"/>
+                                            <Image Aspect="Fill" MinimumHeightRequest="100" x:Name="CoverImage">
+                                                <Image.Source>
+                                                    <UriImageSource Uri="{Binding CoverArt}" 
+                                                    CacheValidity="10" 
+			                                        CachingEnabled="true"
+                                                                />
+                                                </Image.Source>
+                                            </Image>
+                                            
+                                            <Label x:Name="Label" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalOptions="End" BackgroundColor="Black" Text="{Binding Name}" TextColor="Orange"/>
+
+                                        </Grid>
+                                    </Frame>
+
+                                </Grid>
+                            </DataTemplate>
+                        </flv:FlowListView.FlowColumnTemplate>
+
+                    </flv:FlowListView>
+
+                </StackLayout>
+
+
+
+            </StackLayout>
+
+            <animation:AnimationView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" x:Name="LoadingAnimation"
+                                     Animation="loading.json"
+                                     Loop="True"
+                                     AutoPlay="True"
+                                     VerticalOptions="CenterAndExpand"
+                                     HorizontalOptions="CenterAndExpand"
+                                     IsVisible="{Binding IsBusy}"
+                                     IsEnabled="{Binding IsBusy}"
+                                     />
+
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>

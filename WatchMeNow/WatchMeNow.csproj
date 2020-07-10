@@ -35,6 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="View\RadioStationsPage.xaml.cs">
+      <DependentUpon>RadioStationsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="View\CurrentTrackPage.xaml.cs">
       <DependentUpon>CurrentTrackPage.xaml</DependentUpon>
     </Compile>

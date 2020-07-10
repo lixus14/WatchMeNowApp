@@ -94,7 +94,7 @@ namespace WatchMeNow.View
 
         private async void BtnCurrentlyPlaying_Clicked(object sender, EventArgs e)
         {
-            if (CrossMediaManager.Current.IsPlaying())
+            if (CrossMediaManager.Current.IsPlaying() && Utilities.SongTypeCode == (int)Utilities.SongType.Music)
             {
                 await App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(new CurrentTrackPage())
                 {
@@ -102,7 +102,7 @@ namespace WatchMeNow.View
                     BarTextColor = Color.Orange
                 });
             }
-            else if(CrossMediaManager.Current.Queue != null && CrossMediaManager.Current.Queue.Count > 0)
+            else if(CrossMediaManager.Current.Queue != null && CrossMediaManager.Current.Queue.Count > 0 && Utilities.SongTypeCode == (int)Utilities.SongType.Music)
             {
                 await App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(new CurrentTrackPage())
                 {
@@ -208,6 +208,7 @@ namespace WatchMeNow.View
 
             vm.IsBusy = false;
 
+            Utilities.SongTypeCode = (int)Utilities.SongType.Music;
         }
 
 

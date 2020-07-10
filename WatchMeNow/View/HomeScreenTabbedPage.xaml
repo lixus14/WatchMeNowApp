@@ -19,6 +19,14 @@
 
         </NavigationPage>-->
 
+        <NavigationPage Title="Radio" BarTextColor="Orange" BarBackgroundColor="Black" Icon="Radio.png">
+
+            <x:Arguments>
+                <views:RadioStationsPage/>
+            </x:Arguments>
+
+        </NavigationPage>
+
         <NavigationPage Title="Music" BarTextColor="Orange" BarBackgroundColor="Black" Icon="MusicIcon.png">
 
             <x:Arguments>

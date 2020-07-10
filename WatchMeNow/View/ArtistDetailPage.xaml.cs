@@ -112,6 +112,8 @@ namespace WatchMeNow.View
                 });
 
                 viewModel.IsBusy = false;
+
+                Utilities.SongTypeCode = (int)Utilities.SongType.Music;
             }
 
         }

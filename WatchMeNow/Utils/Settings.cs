@@ -56,6 +56,14 @@ namespace WatchMeNow.Utils
             }
         }
 
+        public static string RadioStationCatalogUrl
+        {
+            get
+            {
+                return @"https://lixus14.github.io/WatchMeNow/RadioStations.json";
+            }
+        }
+
         public static string TrackLyricsPath
         {
             get

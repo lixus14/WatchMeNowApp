@@ -228,6 +228,14 @@ namespace WatchMeNow.Utils
 
         public static bool IsCurrentSongPlaying { get; set; }
 
+        public static int SongTypeCode { get; set; }
+
+        public enum SongType
+        {
+            Music = 1,
+            Radio = 2
+        }
+
         public static string InternetMovieDatabaseLogoUrl => "https://m.media-amazon.com/images/G/01/imdb/images-ANDW73HA/imdb_fb_logo._CB1542065250_.png";
 
         public static string RottenTomatoesLogoUrl => "https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/cf-lg.3c29eff04f2.png";

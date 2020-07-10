@@ -13838,31 +13838,34 @@ namespace WatchMeNow.Droid
 			public const int Play = 2131165564;
 			
 			// aapt resource value: 0x7F07017D
-			public const int RefreshIcon = 2131165565;
+			public const int Radio = 2131165565;
 			
 			// aapt resource value: 0x7F07017E
-			public const int Shuffle = 2131165566;
+			public const int RefreshIcon = 2131165566;
 			
 			// aapt resource value: 0x7F07017F
-			public const int SkipBack = 2131165567;
+			public const int Shuffle = 2131165567;
 			
 			// aapt resource value: 0x7F070180
-			public const int SkipForward = 2131165568;
+			public const int SkipBack = 2131165568;
 			
 			// aapt resource value: 0x7F070181
-			public const int SplashScreen = 2131165569;
+			public const int SkipForward = 2131165569;
 			
 			// aapt resource value: 0x7F070182
-			public const int tooltip_frame_dark = 2131165570;
+			public const int SplashScreen = 2131165570;
 			
 			// aapt resource value: 0x7F070183
-			public const int tooltip_frame_light = 2131165571;
+			public const int tooltip_frame_dark = 2131165571;
 			
 			// aapt resource value: 0x7F070184
-			public const int User = 2131165572;
+			public const int tooltip_frame_light = 2131165572;
 			
 			// aapt resource value: 0x7F070185
-			public const int X = 2131165573;
+			public const int User = 2131165573;
+			
+			// aapt resource value: 0x7F070186
+			public const int X = 2131165574;
 			
 			static Drawable()
 			{
