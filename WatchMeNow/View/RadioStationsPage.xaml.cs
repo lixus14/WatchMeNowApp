@@ -73,37 +73,25 @@ namespace WatchMeNow.View
             }
         }
 
-        //private void SbRadioStation_Unfocused(object sender, FocusEventArgs e)
-        //{
-        //    if(string.IsNullOrEmpty(sbRadioStation.Text) || string.IsNullOrWhiteSpace(sbRadioStation.Text))
-        //    {
-        //        sbRadioStation.IsVisible = false;
-        //        sbRadioStation.Text = string.Empty;
+        private void btnPlayPause_Clicked(object sender, EventArgs e)
+        {
+            var media = CrossMediaManager.Current;
 
-        //        NavigationPage.SetHasNavigationBar(this, true);
-        //    }
+            var vm = (BindingContext as RadioStationsViewModel);
 
-        //}
+            if (media.IsPlaying())
+            {
+                media.Pause();
 
-        //private async void BtnCurrentlyPlaying_Clicked(object sender, EventArgs e)
-        //{
-        //    if (CrossMediaManager.Current.IsPlaying() && Utilities.SongTypeCode == (int)Utilities.SongType.Radio)
-        //    {
-        //        //await App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(new CurrentTrackPage())
-        //        //{
-        //        //    BarBackgroundColor = Color.Black,
-        //        //    BarTextColor = Color.Orange
-        //        //});
-        //    }
-        //    else if(CrossMediaManager.Current.Queue != null && CrossMediaManager.Current.Queue.Count > 0 && Utilities.SongTypeCode == (int)Utilities.SongType.Radio)
-        //    {
-        //        //await App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(new CurrentTrackPage())
-        //        //{
-        //        //    BarBackgroundColor = Color.Black,
-        //        //    BarTextColor = Color.Orange
-        //        //});
-        //    }
-        //}
+                vm.PlayPauseSource = "Play.png";
+            }
+            else
+            {
+                media.Play();
+
+                vm.PlayPauseSource = "Pause.png";
+            }
+        }
 
     }
 }

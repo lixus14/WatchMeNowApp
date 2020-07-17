@@ -39,6 +39,8 @@ namespace WatchMeNow.ViewModel
                 StationUrl = string.Empty
             };
 
+            PlayPauseSource = "Play.png";
+
             LoadData();
         }
 
@@ -59,6 +61,13 @@ namespace WatchMeNow.ViewModel
         {
             get { return _currentRadioStation; }
             set { _currentRadioStation = value; OnPropertyChanged("CurrentRadioStation"); }
+        }
+
+        private string _PlayPauseSource;
+        public string PlayPauseSource
+        {
+            get { return _PlayPauseSource; }
+            set { _PlayPauseSource = value; OnPropertyChanged("PlayPauseSource"); }
         }
 
         public ICommand ItemTappedCommand { get; set; }
@@ -90,6 +99,8 @@ namespace WatchMeNow.ViewModel
             await Task.WhenAll(stop, play, setNewRadio);
 
             Utilities.SongTypeCode = (int)Utilities.SongType.Radio;
+
+            PlayPauseSource = "Pause.png";
 
             IsBusy = false;
         }

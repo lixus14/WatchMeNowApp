@@ -7,7 +7,8 @@
              mc:Ignorable="d"
              x:Class="WatchMeNow.View.RadioStationsPage"
              xmlns:vm="clr-namespace:WatchMeNow.ViewModel" 
-             xmlns:animation="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             xmlns:animation="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              Title="{Binding Title}"
              BackgroundColor="LightGray">
 
@@ -15,13 +16,8 @@
         <vm:RadioStationsViewModel x:Name="RadioStationsViewModel"/>
     </ContentPage.BindingContext>
 
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="btnCurrentlyPlaying" IconImageSource="CD.png" Clicked="BtnCurrentlyPlaying_Clicked" Priority="0" Order="Primary" IsEnabled="{Binding CurrentSongIsPlaying}"/>
-        <ToolbarItem x:Name="btnRadioStationSearch" IconImageSource="MagnifyingGlass.png" Clicked="BtnRadioStationSearch_Clicked" Priority="2" Order="Primary"/>
-    </ContentPage.ToolbarItems>-->
-    
     <ContentPage.Content>
-        <Grid>
+        <Grid BackgroundColor="DarkGray">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -30,38 +26,65 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Frame BackgroundColor="White" HeightRequest="100">
+            <yummy:PancakeView Grid.Column="0" Grid.Row="0" BackgroundColor="DarkGray">
+
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
-                    <ActivityIndicator Grid.Row="0" Grid.Column="0" BindingContext="{x:Reference CurrentRadioStationCoverImage}" WidthRequest="50" HeightRequest="50" IsRunning="{Binding IsLoading}" Color="Orange" BackgroundColor="Black"/>
-                    <Image Aspect="Fill" Grid.Row="0" Grid.Column="0" HeightRequest="50" x:Name="CurrentRadioStationCoverImage">
-                        <Image.Source>
-                            <UriImageSource Uri="{Binding CurrentRadioStation.CoverArt}" />
-                        </Image.Source>
-                    </Image>
-                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding CurrentRadioStation.Name}" HeightRequest="50" TextColor="Black"/>
 
-                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRadioStation.Frequency}" HeightRequest="50" TextColor="Black"/>
-                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding CurrentRadioStation.FrequencyType}" HeightRequest="50" TextColor="Black"/>
-                    
-                    
+                    <yummy:PancakeView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" CornerRadius="50,50,50,50" BackgroundColor="Black" HeightRequest="50" WidthRequest="100">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <ActivityIndicator Grid.Row="0" Grid.Column="0" BindingContext="{x:Reference CurrentRadioStationCoverImage}" WidthRequest="50" HeightRequest="50" IsRunning="{Binding IsLoading}" Color="Orange" BackgroundColor="Black"/>
+                            <Image Aspect="Fill" Grid.Row="0" Grid.Column="0" HeightRequest="50" WidthRequest="50" x:Name="CurrentRadioStationCoverImage">
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding CurrentRadioStation.CoverArt}" />
+                                </Image.Source>
+                            </Image>
+                        </Grid>
+                    </yummy:PancakeView>
+
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Label Text="{Binding CurrentRadioStation.Name}" FontSize="Medium" Grid.Column="0" HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding CurrentRadioStation.Frequency}" FontSize="Medium" Grid.Column="1" HorizontalTextAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <ImageButton x:Name="btnPlayPause" Aspect="AspectFit" Clicked="btnPlayPause_Clicked" Grid.Column="0" Grid.Row="0"
+                                 HeightRequest="80" WidthRequest="80" MinimumHeightRequest="80" MinimumWidthRequest="80" 
+                                     Source="{Binding PlayPauseSource}" BackgroundColor="DarkGray"/>
+                    </Grid>
+
                 </Grid>
-            </Frame>
+
+            </yummy:PancakeView>
 
             <StackLayout Grid.Row="1" Grid.Column="0">
-
-                <!--<SearchBar x:Name="sbRadioStation" IsVisible="false" Placeholder="Search" PlaceholderColor="WhiteSmoke"
-                       TextChanged="SbRadioStation_TextChanged" Unfocused="SbRadioStation_Unfocused" BackgroundColor="Black"
-                       TextColor="Orange" CancelButtonColor="DarkOrange"/>-->
 
                 <StackLayout>
 
